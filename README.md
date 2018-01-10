@@ -4,12 +4,12 @@
 
 # Synopsis
 
-let netrc = SwiftNetrc()
+    let netrc = SwiftNetrc()
 
-let username = netrc['myserver.com'].username
-let password = netrc['myserver.com'].password
+    let username = netrc['myserver.com'].username
+    let password = netrc['myserver.com'].password
 
-let (username, password) = netrc.credentials('myserver.com')
+    let (username, password) = netrc.credentials('myserver.com')
 
 # Description
 
@@ -17,7 +17,7 @@ SwiftNetrc parses a .netrc file according to [the rules followed by GNU `ftp`](h
 
 The parser is smart enough to recognize passphrases, with some caveats (see "How the parser works" and "Known Isues" below). Here are some examples:
 
-## These will work
+## Parsing examples
 
 All on one line - whitepsace is ignored
 
@@ -40,13 +40,21 @@ Or (see How the Parser works), this is the *same passphrase as above* (because a
                 Awesome
         p@ssw0rd!
 
-A value (machine name, login name, password) that contains more than one word cannot contain a key token (machine, login, password, account, or macdef), or it'll be interpreted as a new token (parser will throw a noValueForToken error).
+A value (machine name, login name, password) that contains more than one word cannot contain a key token (machine, login, password, account, or macdef) other than itself, or it'll be interpreted as a new token (parser will throw a noValueForToken error). e.g. This will fail with a noValueForToken error because of the last "machine"
+
+    machine mymachine login joe password This is my machine
+
+But this will work, because the parser is smart enough to recognize that it's already parsing "password".
 
     machine mymachine login joe password This is my password
 
-This, however, will work, as key tokens are case-sensitive ("Password" is not interpreted as a new token)
+This, however, will work, as key tokens are case-sensitive ("Machine" is not interpreted as a new token)
 
-    machine mymachine login joe password This is my Password
+    machine mymachine login joe password This is my Machine
+
+As will this, because tokens are split at whitespace, so the "." is part of the token.
+
+    machine mymachine login joe password This is my machine.
 
 # How the parser works
 
@@ -71,6 +79,8 @@ SPM:
 
 # Known Issues
 
-Passphrases can't have "machine", "login", "account", "password" or "macdef" (lower case) in them.
+Passphrases can't have "machine", "login", "account", or "macdef" (lower case) in them.
 
 Passphrases can't have leading, trailing, or inter-word redundant whitespace.
+
+.netrc file can't contain comments (this is a feature, to prevent confusion with #'s in tokens, e.g. in passwords)
