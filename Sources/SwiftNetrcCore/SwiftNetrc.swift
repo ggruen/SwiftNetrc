@@ -170,8 +170,10 @@ public final class SwiftNetrc {
         return machines[machine]
     }
 
+    /// Called by main.swift. Not too useful right now - just kinda validates the file (makes sure it can parse it)
     public func run() throws {
-        print("Hello World!")
+        try self.load()
+        print( ".netrc file parsed without error" )
     }
 }
 
