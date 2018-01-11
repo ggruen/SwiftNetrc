@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/ggruen/SwiftNetrc.svg?branch=master)](https://travis-ci.org/ggruen/SwiftNetrc)
-[![Coverage Status](https://coveralls.io/repos/github/ggruen/SwiftNetrc/badge.svg?branch=master)](https://coveralls.io/github/ggruen/SwiftNetrc?branch=master)
 [![Swift 4.0](https://img.shields.io/badge/swift-4.0-green.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
