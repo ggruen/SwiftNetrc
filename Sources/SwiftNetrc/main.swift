@@ -1,4 +1,5 @@
-import Darwin // Gets us "exit"
+//import Darwin // Gets us "exit"
+import Foundation  // Needed for error.localizedDescription (or we get an error from ld)
 #if SWIFT_PACKAGE
 import SwiftNetrcCore
 #endif
@@ -12,6 +13,6 @@ do {
     try tool.run()
 } catch {
     // error happened - exit with non-zero exit status
-    print("\(error.localizedDescription)")
+    print(error.localizedDescription)
     exit(1)
 }
