@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ggruen/SwiftNetrc.svg?branch=master)](https://travis-ci.org/ggruen/SwiftNetrc)
+[![Coverage Status](https://coveralls.io/repos/github/ggruen/SwiftNetrc/badge.svg?branch=master)](https://coveralls.io/github/ggruen/SwiftNetrc?branch=master)
 [![Swift 4.0](https://img.shields.io/badge/swift-4.0-green.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -108,3 +109,9 @@ If you really want to you can "install" it:
     cp ./.build/x86_64-apple-macosx10.10/debug/SwiftNetrc /usr/local/bin/swiftnetrc
 
 Then you could just run "swiftnetrc" to have it parse and report on your .netrc file. Exciting, I know.
+
+## Account, macdef, and default don't do much
+
+The `default` token is currently ignored.
+
+`account` and `macdef` are stored, but SwiftNetrc won't do aynthing with `macdef` (e.g. run a macro) because it's not an ftp client. :)
