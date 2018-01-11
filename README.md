@@ -1,6 +1,6 @@
 # SwiftNetrc
 
-`.netrc` parser for (command-line, cross-platform) Swift.
+`.netrc` parser for (command-line / server-side) Swift.
 
 # Synopsis
 
@@ -15,7 +15,9 @@
 
 SwiftNetrc parses a .netrc file according to [the rules followed by GNU `ftp`](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html).
 
-The parser is smart enough to recognize passphrases, with some caveats (see "How the parser works" and "Known Isues" below). Here are some examples:
+The parser is smart enough to recognize passphrases, with some caveats (see "How the parser works" and "Known Isues" below).
+
+If the input file is readable by anyone but the user, throws a SwiftNetrc.SwiftNetrcError.fileGroupOrWorldWritableOrExecutable error.
 
 ## Parsing examples
 
@@ -79,8 +81,33 @@ SPM:
 
 # Known Issues
 
+## MacOS 10.12, no Linux, yet
+
+SwiftNetrc requires MacOS 10.12, and probably won't run on Linux. This isn't intentional - I use
+`FileManager.default.homeDirectoryForCurrentUser`. There's probably a linux-friendly way to get the user's home directory
+that would make this cross-platform-friendly. When I need to run this on Linux, I'll make that update, and I'd love a pull request if
+you do it.
+
+## Passphrases have some limitations
+
 Passphrases can't have "machine", "login", "account", or "macdef" (lower case) in them.
 
 Passphrases can't have leading, trailing, or inter-word redundant whitespace.
 
+## .netrc can't contain comments
+
 .netrc file can't contain comments (this is a feature, to prevent confusion with #'s in tokens, e.g. in passwords)
+
+## Command-line utility exists but, is mostly useless
+
+There's a command-line utility that'll get built when you build, but it currently just runs the parser and prints ".netrc file parsed
+without error" if there are no errors, and prints and error and exits 1 otherwise. I guess you could use it to test your .netrc file like this:
+
+    swift build
+    ./.build/x86_64-apple-macosx10.10/debug/SwiftNetrc && ftp ftp.myserver.com
+
+If you really want to you can "install" it:
+
+    cp ./.build/x86_64-apple-macosx10.10/debug/SwiftNetrc /usr/local/bin/swiftnetrc
+
+Then you could just run "swiftnetrc" to have it parse and report on your .netrc file. Exciting, I know.

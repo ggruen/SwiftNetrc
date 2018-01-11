@@ -17,6 +17,9 @@ public final class SwiftNetrc {
 
         /// A token, e.g. "password" wasn't followed by a value
         case noValueForToken(String)
+
+        /// .netrc file isn't read-only
+        case fileGroupOrWorldWritableOrExecutable
     }
 
     /// The URL to the .netrc file. Defaults to ~/.netrc
@@ -53,6 +56,12 @@ public final class SwiftNetrc {
 
     /// Reads the contents of .netrc into `machines`
     open func load() throws {
+        let attributes = try FileManager.default.attributesOfItem(atPath: netrcFile.path)
+        // .netrc must be read and/or write for user only, so 600 or 400 are ok, nothing else.
+        let okPermissions: Int16 = 0o600
+        guard (attributes[.posixPermissions] as! Int16 | okPermissions) == okPermissions else {
+            throw SwiftNetrcError.fileGroupOrWorldWritableOrExecutable
+        }
         let netrc = try String(contentsOf: netrcFile, encoding: .utf8)
 
         try parse(netrc)
