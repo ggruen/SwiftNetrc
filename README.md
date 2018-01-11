@@ -1,6 +1,8 @@
-# SwiftNetrc
-
 [![Build Status](https://travis-ci.org/ggruen/SwiftNetrc.svg?branch=master)](https://travis-ci.org/ggruen/SwiftNetrc)
+[![Swift 4.0](https://img.shields.io/badge/swift-4.0-green.svg?style=flat)](https://developer.apple.com/swift)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+# SwiftNetrc
 
 `.netrc` parser for (command-line / server-side) Swift.
 
