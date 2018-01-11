@@ -1,6 +1,5 @@
 import Foundation
 
-@available(OSX 10.12, *)
 /// Parses `~/.netrc`
 ///
 ///     let netrc = SwiftNetrc()
@@ -23,7 +22,19 @@ public final class SwiftNetrc {
     }
 
     /// The URL to the .netrc file. Defaults to ~/.netrc
-    open var netrcFile: URL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".netrc")
+    open var netrcFile: URL = getDefaultNetrc()
+
+    /// Return a URL to ~/.netrc using method appropriate for the OS
+    open static func getDefaultNetrc() -> URL {
+        if #available(OSX 10.12, *) {
+            // This *might* return the user's home directory regardless of sandboxing?
+            return FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".netrc")
+        } else {
+            // NSHomeDirectory returns the user's home directory, which is ~/, or in the Application sandbox,
+            // if the application is sandboxed
+            return URL(fileURLWithPath: NSHomeDirectory() + "/.netrc")
+        }
+    }
     var machines: [String: NetrcMachine] = [:]
 
     /// Allows this library to be used as a shell command
@@ -115,8 +126,8 @@ public final class SwiftNetrc {
             switch currentToken! {
                 case .machine:
                     if !tokenIsValue {
-                        guard i+1 < tokens.count else {
-                            throw SwiftNetrcError.noValueForToken( (currentToken?.rawValue)! )
+                        guard i + 1 < tokens.count else {
+                            throw SwiftNetrcError.noValueForToken((currentToken?.rawValue)!)
                         }
                         currentMachineName = tokens[i + 1]
                         i += 1
@@ -128,8 +139,8 @@ public final class SwiftNetrc {
                     if let login = machines[currentMachineName]?.login {
                         machines[currentMachineName]!.login = "\(login) \(tokens[i])"
                     } else {
-                        guard i+1 < tokens.count else {
-                            throw SwiftNetrcError.noValueForToken( (currentToken?.rawValue)! )
+                        guard i + 1 < tokens.count else {
+                            throw SwiftNetrcError.noValueForToken((currentToken?.rawValue)!)
                         }
                         machines[currentMachineName]!.login = tokens[i + 1]
                         i += 1
@@ -139,8 +150,8 @@ public final class SwiftNetrc {
                     if let password = machines[currentMachineName]?.password {
                         machines[currentMachineName]!.password = "\(password) \(tokens[i])"
                     } else {
-                        guard i+1 < tokens.count else {
-                            throw SwiftNetrcError.noValueForToken( (currentToken?.rawValue)! )
+                        guard i + 1 < tokens.count else {
+                            throw SwiftNetrcError.noValueForToken((currentToken?.rawValue)!)
                         }
                         machines[currentMachineName]!.password = tokens[i + 1]
                         i += 1
@@ -150,8 +161,8 @@ public final class SwiftNetrc {
                     if let account = machines[currentMachineName]?.account {
                         machines[currentMachineName]!.account = "\(account) \(tokens[i])"
                     } else {
-                        guard i+1 < tokens.count else {
-                            throw SwiftNetrcError.noValueForToken( (currentToken?.rawValue)! )
+                        guard i + 1 < tokens.count else {
+                            throw SwiftNetrcError.noValueForToken((currentToken?.rawValue)!)
                         }
                         machines[currentMachineName]!.account = tokens[i + 1]
                         i += 1
@@ -161,8 +172,8 @@ public final class SwiftNetrc {
                     if let macdef = machines[currentMachineName]?.macdef {
                         machines[currentMachineName]!.macdef = "\(macdef) \(tokens[i])"
                     } else {
-                        guard i+1 < tokens.count else {
-                            throw SwiftNetrcError.noValueForToken( (currentToken?.rawValue)! )
+                        guard i + 1 < tokens.count else {
+                            throw SwiftNetrcError.noValueForToken((currentToken?.rawValue)!)
                         }
                         machines[currentMachineName]!.macdef = tokens[i + 1]
                         i += 1
@@ -181,8 +192,8 @@ public final class SwiftNetrc {
 
     /// Called by main.swift. Not too useful right now - just kinda validates the file (makes sure it can parse it)
     public func run() throws {
-        try self.load()
-        print( ".netrc file parsed without error" )
+        try load()
+        print(".netrc file parsed without error")
     }
 }
 
