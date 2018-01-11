@@ -1,5 +1,7 @@
 # SwiftNetrc
 
+[![Build Status](https://travis-ci.org/ggruen/SwiftNetrc.svg?branch=master)](https://travis-ci.org/ggruen/SwiftNetrc)
+
 `.netrc` parser for (command-line / server-side) Swift.
 
 # Synopsis
@@ -80,13 +82,6 @@ SPM:
     .package( "https://github.com/ggruen/SwiftNetrc.git", from: "1.0.0" )
 
 # Known Issues
-
-## MacOS 10.12, no Linux, yet
-
-SwiftNetrc requires MacOS 10.12, and probably won't run on Linux. This isn't intentional - I use
-`FileManager.default.homeDirectoryForCurrentUser`. There's probably a linux-friendly way to get the user's home directory
-that would make this cross-platform-friendly. When I need to run this on Linux, I'll make that update, and I'd love a pull request if
-you do it.
 
 ## Passphrases have some limitations
 
