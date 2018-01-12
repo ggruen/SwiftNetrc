@@ -9,19 +9,6 @@ import XCTest
 
 class SwiftNetrcTests: XCTestCase {
 
-    /// For Linux
-    static var allTests = [
-        ("testRetrievesUsernameAndPassword", testRetrievesUsernameAndPassword),
-        ("testNetrcSetsFilePathOnInit",      testNetrcSetsFilePathOnInit     ),
-        ("testHandlesTwoMachines",           testHandlesTwoMachines          ),
-        ("testHandlesPassphrases",           testHandlesPassphrases          ),
-        ("testThrowsNoMachineSpecified",     testThrowsNoMachineSpecified    ),
-        ("testThrowsNoValueForToken",        testThrowsNoValueForToken       ),
-        ("testThrowsOnUnsafeFile",           testThrowsOnUnsafeFile          ),
-        ("testDoesntThrowWithGoodPermissions", testDoesntThrowWithGoodPermissions ),
-        ("testPerformanceExample",           testPerformanceExample          ),
-    ]
-
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of

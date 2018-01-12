@@ -114,3 +114,41 @@ Then you could just run "swiftnetrc" to have it parse and report on your .netrc 
 The `default` token is currently ignored.
 
 `account` and `macdef` are stored, but SwiftNetrc won't do aynthing with `macdef` (e.g. run a macro) because it's not an ftp client. :)
+
+# Development
+
+It's easiest to develop on a Mac, then build LinuxMain.swift and test on Linux and fix any issues.
+
+Get the code:
+
+    git clone https://github.com/ggruen/SwiftNetrc.git
+    cd SwiftNetrc
+    swift package update && swift package generate-xcodeproj
+
+Edit files:
+
+    open -a Xcode.app SwiftNetrc.xcodeproj
+
+Test (in Xcode, or):
+
+    swift test
+
+Prepare for commit:
+
+    ./buildtests
+    git add -A
+    git commit
+
+Then, check out on Linux:
+
+    git clone https://github.com/ggruen/SwiftNetrc.git
+    cd SwiftNetrc
+    swift package update
+    swift test
+
+Fix any descrepencies (things that worked on Mac, not on Linux).
+
+    vim -p SwiftNetrcTests/SwiftNetrcTests.swift SwiftNetrcCode/SwiftNetrc.swift
+    git add -A
+    git commit
+    git push

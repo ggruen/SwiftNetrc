@@ -1,0 +1,14 @@
+#!/bin/sh
+# buildtests - runs on MacOS X only, but generates LinuxMain.swift for Linux
+# (required to run "swift test" on Linux)
+
+set -e
+
+# https://github.com/krzysztofzablocki/Sourcery/releases/latest
+if [ `which sourcery` = "" ] ; then
+    echo "Please instsall sourcery from"
+    echo "https://github.com/krzysztofzablocki/Sourcery/releases/latest"
+    exit 1
+else
+    sourcery --templates ./sourcery --sources .
+fi
