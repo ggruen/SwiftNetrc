@@ -19,6 +19,9 @@ public final class SwiftNetrc {
 
         /// .netrc file isn't read-only
         case fileGroupOrWorldWritableOrExecutable
+
+        /// Couldn't read file permissions
+        case unableToReadFilePermissions
     }
 
     /// The URL to the .netrc file. Defaults to ~/.netrc
@@ -70,7 +73,10 @@ public final class SwiftNetrc {
         let attributes = try FileManager.default.attributesOfItem(atPath: netrcFile.path)
         // .netrc must be read and/or write for user only, so 600 or 400 are ok, nothing else.
         let okPermissions: Int16 = 0o600
-        guard (attributes[.posixPermissions] as! Int16 | okPermissions) == okPermissions else {
+        guard let filePerms = attributes[.posixPermissions] as? NSNumber else {
+            throw SwiftNetrcError.unableToReadFilePermissions
+        }
+        guard (filePerms.int16Value | okPermissions) == okPermissions else {
             throw SwiftNetrcError.fileGroupOrWorldWritableOrExecutable
         }
         let netrc = try String(contentsOf: netrcFile, encoding: .utf8)
