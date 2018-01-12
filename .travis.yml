@@ -1,6 +1,10 @@
-os:
-    - linux
-    - osx
 language: swift
+
 install: swift package update
 script: swift test
+
+matrix:
+  include:
+    - os: linux
+    - os: osx
+      osx_image: xcode9.2
