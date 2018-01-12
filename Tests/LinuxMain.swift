@@ -2,6 +2,7 @@
 // DO NOT EDIT
 
 import XCTest
+@testable import SwiftNetrcTests
 
 extension SwiftNetrcTests {
   static var allTests = [

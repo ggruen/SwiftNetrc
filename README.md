@@ -135,7 +135,7 @@ Test (in Xcode, or):
 
 Prepare for commit:
 
-    ./buildtests
+    sourcery # Download from https://github.com/krzysztofzablocki/Sourcery/releases/latest
     git add -A
     git commit
 
