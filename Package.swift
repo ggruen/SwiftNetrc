@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftNetrc",
+    products: [
+        .library(name: "SwiftNetrc", targets: ["SwiftNetrc"]),
+    ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -20,5 +23,6 @@ let package = Package(
         .testTarget(
             name: "SwiftNetrcTests",
             dependencies: ["SwiftNetrcCore"])
-    ]
+    ],
+    swiftLanguageVersions: [3, 4]
 )
