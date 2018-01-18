@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "SwiftNetrc",
     products: [
-        .library(name: "SwiftNetrc", targets: ["SwiftNetrc"]),
+        .executable(name: "SwiftNetrc", targets: ["SwiftNetrc"]),
+        .library(name: "SwiftNetrcCore", targets: ["SwiftNetrcCore"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
